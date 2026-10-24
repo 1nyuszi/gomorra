@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+$kernel = require dirname(__DIR__).'/bootstrap.php';
+// FrameworkBundle discovers #[AsCommand] services from the shared container.
+// Running Console boots no HTTP listener and makes no HTTP request.
+exit((new Application($kernel))->run());

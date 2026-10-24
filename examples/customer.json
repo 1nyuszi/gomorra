@@ -1,0 +1,13 @@
+{
+    "name": "Customer",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "email": {"type": "string"},
+            "age": {"type": "integer"},
+            "active": {"type": "boolean"}
+        },
+        "required": ["email"],
+        "additionalProperties": false
+    }
+}

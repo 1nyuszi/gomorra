@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+use App\Adapter\Mcp\McpServer;
+
+$kernel = require dirname(__DIR__).'/bootstrap.php';
+$kernel->getContainer()->get(McpServer::class)->runStdio();

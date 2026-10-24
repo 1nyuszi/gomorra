@@ -1,0 +1,10 @@
+<?php
+declare(strict_types=1);
+
+// Copy to local.php, which is ignored by Git. Environment variables take precedence.
+return [
+    'DATABASE_DSN' => 'mysql:host=localhost;port=3306;dbname=gomorra_dev;charset=utf8mb4',
+    'DATABASE_USER' => 'your_user',
+    'DATABASE_PASSWORD' => 'your_password',
+    'TEST_DATABASE_DSN' => 'mysql:host=localhost;port=3306;dbname=gomorra_test;charset=utf8mb4',
+];

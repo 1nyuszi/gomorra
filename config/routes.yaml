@@ -1,0 +1,7 @@
+api:
+    resource: ../src/Adapter/Api/
+    type: attribute
+
+mcp:
+    resource: ../src/Adapter/Mcp/McpServer.php
+    type: attribute

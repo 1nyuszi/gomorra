@@ -1,0 +1,49 @@
+parameters:
+    env(SCHEMA_STORAGE): '%kernel.project_dir%/var/schemas.json'
+    env(DATABASE_DSN): 'mysql:host=localhost;port=3306;dbname=gomorra_dev;charset=utf8mb4'
+    env(DATABASE_USER): ''
+    env(DATABASE_PASSWORD): ''
+    env(MCP_ALLOWED_ORIGINS): 'http://localhost,http://127.0.0.1,http://localhost:8000,http://127.0.0.1:8000'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Core\Service\:
+        resource: '../src/Core/Service/'
+
+    App\Core\Database\:
+        resource: '../src/Core/Database/'
+
+    PDO:
+        class: PDO
+        factory: ['App\Infrastructure\Persistence\MySqlConnectionFactory', 'create']
+        arguments:
+            $dsn: '%env(DATABASE_DSN)%'
+            $user: '%env(DATABASE_USER)%'
+            $password: '%env(DATABASE_PASSWORD)%'
+
+    App\Core\Port\SchemaRepository:
+        alias: App\Infrastructure\Persistence\FileSchemaRepository
+
+    App\Infrastructure\Persistence\FileSchemaRepository:
+        arguments:
+            $path: '%env(resolve:SCHEMA_STORAGE)%'
+
+    App\Adapter\Api\:
+        resource: '../src/Adapter/Api/'
+        tags: ['controller.service_arguments']
+
+    App\Adapter\Cli\:
+        resource: '../src/Adapter/Cli/'
+        # Autoconfiguration registers #[AsCommand] services with bin/console.
+
+    App\Adapter\Mcp\:
+        resource: '../src/Adapter/Mcp/'
+        public: true
+
+    App\Adapter\Mcp\McpServer:
+        public: true
+        arguments:
+            $allowedOrigins: '%env(csv:MCP_ALLOWED_ORIGINS)%'
